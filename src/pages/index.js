@@ -1,24 +1,73 @@
-import React from "react"
-import { Link } from "gatsby"
+import React, { useState } from "react";
+import uuid from "uuid";
 
-import Layout from "../components/layout"
-import SEO from "../components/seo"
+import Layout from "../components/layout";
+import SEO from "../components/seo";
+import AddTodo from "../components/AddTodo";
+import TodoItem from "../components/TodoItem";
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Gatsby Tailwind Simple Setup" />
+function IndexPage() {
+  const [todos, setTodos] = useState([
+    {
+      id: uuid.v4(),
+      title: "Learn React within Gatsby",
+      completed: false
+    },
+    {
+      id: uuid.v4(),
+      title: "Work 20 minutes in pure React",
+      completed: false
+    },
+    {
+      id: uuid.v4(),
+      title: "Enjoy 20 minutes of learning React",
+      completed: false
+    }
+  ]);
 
-    <div className="md:w-1/2 w-10/12 mx-auto bg-gray-300 mt-5 p-3 rounded-lg">
-      <p className="text-lg my-5">Gatsby &amp; Tailwind</p>
-      <p className="text-base mb-5">This is a very simple setup of <a href="https://tailwindcss.com/" target="_blank" className="underline">Tailwind</a> in a <a href="https://www.gatsbyjs.org" target="_blank" className="underline">Gatsby</a> project. The only plugins it uses are <a href="https://www.gatsbyjs.org/packages/gatsby-plugin-postcss/?=post" target="_blank" className="underline">Gatsby Post CSS</a> and <a href="https://www.gatsbyjs.org/packages/gatsby-plugin-purgecss/?=purge" target="_blank" className="underline">Gatsby Purge CSS</a>.</p>
-    </div>
+  const addNewTodo = title => {
+    const newTodoList = [
+      ...todos,
+      { id: uuid.v4(), title: title, completed: false }
+    ];
+    setTodos(newTodoList);
+  };
 
-    <div className="md:w-1/2 w-10/12 mx-auto bg-gray-200 mt-5 p-3 rounded-lg">
-      <p className="text-lg my-5">Setup</p>
-      <p className="text-base mb-5">You can download or clone the source from it's <a href="https://github.com/gastongarcia/Gatsby-Tailwind-Simple-Setup" target="_blank" className="underline">Github repo here</a>. Hope it helps.</p>
-    </div>
+  const markTodoCompleted = id => {
+    console.log(id);
 
-  </Layout>
-)
+    const completedTodo = todos.find(todo => todo.id === id);
+    completedTodo.completed = !completedTodo.completed;
 
-export default IndexPage
+    const newTodoList = [...todos];
+
+    setTodos(newTodoList);
+  };
+
+  const deleteTodo = id => {
+    const newTodoList = todos.filter(todo => todo.id !== id);
+    setTodos(newTodoList);
+  };
+
+  return (
+    <Layout>
+      <SEO title="To-do App with React Hooks" />
+
+      <div className="md:w-1/2 w-10/12 mx-auto bg-gray-400 mt-5 p-3 rounded-lg">
+        <AddTodo addNewTodo={addNewTodo} />
+        {todos.map(todo => (
+          <TodoItem
+            title={todo.title}
+            key={todo.id}
+            id={todo.id}
+            completed={todo.completed}
+            markTodoCompleted={markTodoCompleted}
+            deleteTodo={deleteTodo}
+          />
+        ))}
+      </div>
+    </Layout>
+  );
+}
+
+export default IndexPage;
