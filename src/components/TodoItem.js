@@ -10,7 +10,6 @@ function TodoItem(props) {
       >
         {props.title}
       </p>
-      <p className="text-xs">{props.id}</p>
       <button
         className="todo-button bg-green-700"
         onClick={() => props.markTodoCompleted(props.id)}

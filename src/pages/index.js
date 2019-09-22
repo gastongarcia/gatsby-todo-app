@@ -10,17 +10,7 @@ function IndexPage() {
   const [todos, setTodos] = useState([
     {
       id: uuid.v4(),
-      title: "Learn React within Gatsby",
-      completed: false
-    },
-    {
-      id: uuid.v4(),
-      title: "Work 20 minutes in pure React",
-      completed: false
-    },
-    {
-      id: uuid.v4(),
-      title: "Enjoy 20 minutes of learning React",
+      title: "Be grateful while working",
       completed: false
     }
   ]);
